@@ -27,7 +27,4 @@ class TestUserStore < MiniTest::Unit::TestCase
     assert_equal token, user_store.default_token
   end
 
-  def test_get_note_store
-    assert_kind_of NoteStore, user_store.note_store
-  end
 end

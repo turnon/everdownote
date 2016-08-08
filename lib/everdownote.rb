@@ -7,7 +7,7 @@ module Everdownote
       books.map do |book|
 	metas = note_store.findNotes({notebookGuid: book.guid}).notes
 	metas.map do |meta|
-	  "#{meta.updated} #{note_address book, meta}\n"
+	  "#{formated book, meta}\n"
 	end.join
       end.join
     end
@@ -18,8 +18,10 @@ module Everdownote
       @note_store ||= UserStore.new.note_store
     end
 
-    def note_address book, meta
-      book.stack ? "#{book.stack}/#{book.name}/#{meta.title}" : "#{book.name}/#{meta.title}"
+    def formated book, meta
+      address = book.stack ? "#{book.stack}/#{book.name}/#{meta.title}" : "#{book.name}/#{meta.title}"
+      time = Time.at(meta.updated / 1000).strftime('%F %T')
+      "#{meta.updated} #{time} #{address}"
     end
   end
 end

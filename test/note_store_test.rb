@@ -24,4 +24,14 @@ class TestNoteStore < MiniTest::Unit::TestCase
     assert_includes titles, '保存照片'
   end
 
+  def test_get_notebook_by_stack
+    books = note_store.listNotebooks do |b|
+      b.stack == 'stack_1'
+    end
+    assert_equal 2, books.size
+
+    metas = note_store.findNotes({notebookGuid: books[0].guid}).notes
+    titles = metas.map(&:title)
+    assert_includes titles, 'note_1'
+  end
 end

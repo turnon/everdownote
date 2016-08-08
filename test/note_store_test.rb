@@ -6,11 +6,11 @@ class TestNoteStore < MiniTest::Unit::TestCase
   attr_reader :note_store
 
   def setup
-    @note_store = UserStore.new.note_store
+    @note_store = Everdownote::UserStore.new.note_store
   end
 
   def test_get_note_store
-    assert_kind_of NoteStore, note_store
+    assert_kind_of Everdownote::NoteStore, note_store
   end
 
   def test_get_notebook_by_name

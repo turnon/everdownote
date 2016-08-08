@@ -5,6 +5,8 @@ class TestUserStore < MiniTest::Unit::TestCase
 
   attr_reader :user_store
 
+  UserStore = Everdownote::UserStore
+
   def setup
     @user_store = UserStore.new
   end

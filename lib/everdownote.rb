@@ -2,8 +2,8 @@ module Everdownote
   require 'everdownote/user_store'
 
   class << self
-    def new
-      books = note_store.listNotebooks
+    def new real = false
+      books = note_store(real).listNotebooks
       books.map do |book|
 	metas = note_store.findNotes({notebookGuid: book.guid}).notes
 	metas.map do |meta|
@@ -14,8 +14,8 @@ module Everdownote
 
     private
 
-    def note_store
-      @note_store ||= UserStore.new.note_store
+    def note_store real = false
+      @note_store ||= UserStore.new(real).note_store
     end
 
     def formated book, meta

@@ -7,7 +7,8 @@ module Everdownote
     attr_reader :userStore
 
     SANDBOX = "sandbox.evernote.com"
-    REAL = "www.evernote.com"
+    #REAL = "www.evernote.com"
+    REAL = "app.yinxiang.com"
 
     TOKEN = "#{ENV['HOME']}/.everdownote"
 
@@ -34,7 +35,7 @@ module Everdownote
     end
 
     def default_token
-      File.exists?(TOKEN) ? File.read(TOKEN).chomp : nil
+      File.exist?(TOKEN) ? File.read(TOKEN).chomp : nil
     end
 
   end

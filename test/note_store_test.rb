@@ -6,7 +6,7 @@ class TestNoteStore < MiniTest::Unit::TestCase
   attr_reader :note_store
 
   def setup
-    @note_store = Everdownote::UserStore.new.note_store
+    @note_store = Everdownote::UserStore.new.note_store true
   end
 
   def test_get_note_store

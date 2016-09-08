@@ -12,7 +12,7 @@ module Everdownote
 
     TOKEN = "#{ENV['HOME']}/.everdownote"
 
-    def initialize real_env = false
+    def initialize real_env = true
       @real = real_env
       userStoreUrl = "https://#{host}/edam/user"
       userStoreTransport = Thrift::HTTPClientTransport.new(userStoreUrl)

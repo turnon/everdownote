@@ -19,11 +19,11 @@ class TestYinx < MiniTest::Unit::TestCase
   end
 
   def test_take_block_to_filter_notes
-    skip
     notes = Yinx.new do
       book :book_1
     end
     assert_equal 2, notes.size
+    assert_equal 1, notes.count{|n| n.title == 'note_1'}
   end
 
 end

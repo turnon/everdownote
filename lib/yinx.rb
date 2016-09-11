@@ -3,9 +3,9 @@ module Yinx
   require 'yinx/down_config'
 
   class << self
-    def new real = true
-      return concat_metas(real) unless block_given?
-      yield DownConfig.new
+    def new real = true, &block
+      DownConfig.new.instance_eval &block
+      Array.new 2
     end
 
     private

@@ -11,7 +11,7 @@ module Yinx
     #  @wanted_stacks = stacks
     #end
 
-    %w{book stack}.each do |condition|
+    %w{book stack tag}.each do |condition|
       define_method "wanted_#{condition}s" do
 	instance_variable_get("@wanted_#{condition}s") || []
       end

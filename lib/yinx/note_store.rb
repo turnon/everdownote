@@ -33,6 +33,10 @@ module Yinx
       block_given? ? notebooks.select(&blk) : notebooks
     end
 
+    def listTags &blk
+      note_store.listTags(auth_token).select &blk
+    end
+
     def findNotes opt = {}
       note_store.findNotesMetadata auth_token, filter(opt), 0, 100, spec(opt)
     end

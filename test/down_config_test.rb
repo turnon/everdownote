@@ -15,6 +15,12 @@ class TestDownConfig < MiniTest::Unit::TestCase
     assert_equal ['123','456'], dc.wanted_stacks
   end
 
+  def test_tag
+    dc = new_dc
+    dc.tag '123', '456'
+    assert_equal ['123','456'], dc.wanted_tags
+  end
+
   def test_no_config
     dc = new_dc
     assert_equal [], dc.wanted_stacks

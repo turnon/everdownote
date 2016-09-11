@@ -22,12 +22,18 @@ module Yinx
 	end
 	match_book and match_stack
       end
-      find_in_books books
+      tags = note_store.listTags do |tag|
+	config.wanted_tags.any? do |wanted_tag|
+	  wanted_tag === tag.name or wanted_tag.to_s === tag.name
+	end
+      end
+      find_with books, tags
     end
 
-    def find_in_books books
+    def find_with books, tags
+      tag_ids = tags.map{|t| t.guid}
       books.map do |book|
-	note_store.findNotes({notebookGuid: book.guid}).notes
+	note_store.findNotes({notebookGuid: book.guid, tagGuids: tag_ids}).notes
       end.flatten
     end
 

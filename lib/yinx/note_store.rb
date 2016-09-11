@@ -1,6 +1,6 @@
 require 'evernote-thrift'
 
-module Everdownote
+module Yinx
   class NoteStore
 
     attr_reader :auth_token

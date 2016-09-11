@@ -26,4 +26,12 @@ class TestYinx < MiniTest::Unit::TestCase
     assert_equal 2, notes.count{|n| n.title == 'note_1'}
   end
 
+  def test_take_block_to_filter_notes_by_stacks
+    notes = Yinx.new do
+      stack :stack_1, :stack_2
+    end
+    assert_equal 4, notes.size
+    assert_equal 2, notes.count{|n| n.title == 'note_1'}
+  end
+
 end

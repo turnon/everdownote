@@ -14,9 +14,13 @@ module Yinx
 
     def download config
       books = note_store.listNotebooks do |book|
-        config.wanted_books.any? do |wanted_book|
+	match_book = config.wanted_books.empty? ? true : config.wanted_books.any? do |wanted_book|
 	  wanted_book === book.name or wanted_book.to_s === book.name
 	end
+	match_stack = config.wanted_stacks.empty? ? true : config.wanted_stacks.any? do |wanted_stack|
+	  wanted_stack === book.stack or wanted_stack.to_s === book.stack
+	end
+	match_book and match_stack
       end
       find_in_books books
     end

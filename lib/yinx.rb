@@ -3,38 +3,51 @@ module Yinx
   require 'yinx/down_config'
 
   class << self
+
+    attr_reader :config
+
     def new real = true, &block
       @real = real
-      config = DownConfig.new
+      @config = DownConfig.new
       config.instance_eval &block
-      download config
+      download
     end
 
     private
 
-    def download config
-      books = note_store.listNotebooks do |book|
-	match_book = config.wanted_books.empty? ? true : config.wanted_books.any? do |wanted_book|
-	  wanted_book === book.name or wanted_book.to_s === book.name
-	end
-	match_stack = config.wanted_stacks.empty? ? true : config.wanted_stacks.any? do |wanted_stack|
-	  wanted_stack === book.stack or wanted_stack.to_s === book.stack
-	end
-	match_book and match_stack
-      end
-      tags = note_store.listTags do |tag|
-	config.wanted_tags.any? do |wanted_tag|
-	  wanted_tag === tag.name or wanted_tag.to_s === tag.name
-	end
-      end
-      find_with books, tags
+    def note_filters
+      merge book_id_filter, tag_id_filter
     end
 
-    def find_with books, tags
-      tag_ids = tags.map{|t| t.guid}
-      books.map do |book|
-	note_store.findNotes({notebookGuid: book.guid, tagGuids: tag_ids}).notes
+    def book_id_filter
+      return [] if config.wanted_books.empty? and config.wanted_stacks.empty?
+      note_store.listNotebooks do |book|
+	config.want_book? book.name and config.want_stack? book.stack
+      end.map &:guid
+    end
+
+    def tag_id_filter
+      return [] if config.wanted_tags.empty?
+      note_store.listTags do |tag|
+	config.want_tag? tag.name
+      end.map &:guid
+    end
+
+    def download
+      find_with note_filters
+    end
+
+    def find_with filters
+      filters.map do |filter|
+	note_store.findNotes(filter).notes
       end.flatten
+    end
+
+    def merge book_ids, tag_ids
+      return book_ids.map do |book_id|
+	tag_ids.empty? ? {notebookGuid: book_id} : {notebookGuid: book.guid, tagGuids: tag_ids}
+      end unless book_ids.empty?
+      [{tagGuids: tag_ids}]
     end
 
     def note_store

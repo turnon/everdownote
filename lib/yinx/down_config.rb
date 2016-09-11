@@ -1,9 +1,10 @@
 module Yinx
   class DownConfig
 
-    attr_reader :stacks
+    attr_reader :wanted_books
 
-    def book *book
+    def book *books
+      @wanted_books = books
     end
 
   end

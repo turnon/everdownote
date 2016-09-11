@@ -10,14 +10,6 @@ class TestYinx < MiniTest::Unit::TestCase
     assert_match(/2016/, info)
   end
 
-  def test_take_block
-    block_run = false
-    Yinx.new do
-      block_run = true
-    end
-    assert block_run
-  end
-
   def test_take_block_to_filter_notes
     notes = Yinx.new do
       book :book_1

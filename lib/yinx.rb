@@ -4,14 +4,31 @@ module Yinx
 
   class << self
     def new real = true, &block
-      DownConfig.new.instance_eval &block
-      Array.new 2
+      @real = real
+      config = DownConfig.new
+      config.instance_eval &block
+      download config
     end
 
     private
 
-    def note_store real
-      @note_store ||= UserStore.new(real).note_store
+    def download config
+      books = note_store.listNotebooks do |book|
+        config.wanted_books.any? do |wanted_book|
+	  wanted_book === book.name or wanted_book.to_s === book.name
+	end
+      end
+      find_in_books books
+    end
+
+    def find_in_books books
+      books.map do |book|
+	note_store.findNotes({notebookGuid: book.guid}).notes
+      end.flatten
+    end
+
+    def note_store
+      @note_store ||= UserStore.new(@real).note_store
     end
 
     def formated book, meta

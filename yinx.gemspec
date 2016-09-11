@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
 
-  s.name = %q{everdownote}
+  s.name = %q{yinx}
   s.version = "0.0.0"
   s.date = %q{2016-08-04}
   s.authors = ["zp yuan"]

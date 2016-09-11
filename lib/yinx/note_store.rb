@@ -1,6 +1,6 @@
 require 'evernote-thrift'
 
-module Everdownote
+module Yinx
   class NoteStore
 
     attr_reader :auth_token
@@ -31,6 +31,10 @@ module Everdownote
     def listNotebooks authToken = auth_token, &blk
       notebooks = note_store.listNotebooks(authToken)
       block_given? ? notebooks.select(&blk) : notebooks
+    end
+
+    def listTags &blk
+      note_store.listTags(auth_token).select &blk
     end
 
     def findNotes opt = {}

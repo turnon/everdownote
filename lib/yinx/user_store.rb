@@ -1,7 +1,7 @@
 require 'evernote-thrift'
-require 'everdownote/note_store'
+require 'yinx/note_store'
 
-module Everdownote
+module Yinx
   class UserStore
 
     attr_reader :userStore

@@ -1,9 +1,9 @@
 require 'minitest/autorun'
-require 'everdownote/user_store'
+require 'yinx/user_store'
 
 class TestUserStore < MiniTest::Unit::TestCase
 
-  UserStore = Everdownote::UserStore
+  UserStore = Yinx::UserStore
 
   def test_choose_testing_host
     assert_equal UserStore::SANDBOX, UserStore.new(false).host

@@ -1,16 +1,16 @@
 require 'minitest/autorun'
-require 'everdownote/user_store'
+require 'yinx/user_store'
 
 class TestNoteStore < MiniTest::Unit::TestCase
 
   attr_reader :note_store
 
   def setup
-    @note_store = Everdownote::UserStore.new.note_store
+    @note_store = Yinx::UserStore.new.note_store
   end
 
   def test_get_note_store
-    assert_kind_of Everdownote::NoteStore, note_store
+    assert_kind_of Yinx::NoteStore, note_store
   end
 
   def test_get_notebook_by_name

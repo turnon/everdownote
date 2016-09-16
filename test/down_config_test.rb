@@ -34,6 +34,12 @@ class TestDownConfig < MiniTest::Unit::TestCase
     assert dc.want_tag? 'uryrs'
   end
 
+  def test_note_filters_without_setting_note_store
+    dc = new_dc
+    dc.book 'fhjhj'
+    assert_raises(RuntimeError) { dc.note_filters  }
+  end
+
   private
 
   def new_dc

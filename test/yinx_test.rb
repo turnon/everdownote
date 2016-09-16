@@ -42,4 +42,12 @@ class TestYinx < MiniTest::Unit::TestCase
     assert_equal %w{note_3}, notes.map{|n| n.title}
   end
 
+  def test_take_block_to_filter_notes_by_words
+    notes = Yinx.new do
+      word 'in_note3'
+    end
+    assert_equal 1, notes.size
+    assert_equal %w{note_3}, notes.map{|n| n.title}
+  end
+
 end

@@ -70,7 +70,8 @@ module Yinx
 
     def words_filter
       wanted_words.map do |word|
-	{words: word}
+	word = word.join ' ' if word.kind_of? Array
+	{words: word.to_s}
       end
     end
 

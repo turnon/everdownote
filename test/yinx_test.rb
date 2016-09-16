@@ -42,9 +42,41 @@ class TestYinx < MiniTest::Unit::TestCase
     assert_equal %w{note_3}, notes.map{|n| n.title}
   end
 
-  def test_take_block_to_filter_notes_by_words
+  def test_take_block_to_filter_notes_by_word_in_one_note
     notes = Yinx.new do
       word 'in_note3'
+    end
+    assert_equal 1, notes.size
+    assert_equal %w{note_3}, notes.map{|n| n.title}
+  end
+
+  def test_take_block_to_filter_notes_by_word_in_more_than_one_note
+    notes = Yinx.new do
+      word 'qwertyuiop'
+    end
+    assert_equal 2, notes.size
+    assert_equal %w{note_2 note_3}, notes.map{|n| n.title}
+  end
+
+  def test_take_block_to_filter_notes_by_words
+    notes = Yinx.new do
+      word 'qwertyuiop in_note3'
+    end
+    assert_equal 1, notes.size
+    assert_equal %w{note_3}, notes.map{|n| n.title}
+  end
+
+  def test_take_block_to_filter_notes_by_words_in_array
+    notes = Yinx.new do
+      word %w{qwertyuiop in_note3}
+    end
+    assert_equal 1, notes.size
+    assert_equal %w{note_3}, notes.map{|n| n.title}
+  end
+
+  def test_take_block_to_filter_notes_by_symbol_word
+    notes = Yinx.new do
+      word :in_note3
     end
     assert_equal 1, notes.size
     assert_equal %w{note_3}, notes.map{|n| n.title}

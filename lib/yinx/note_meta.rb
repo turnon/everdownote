@@ -10,4 +10,8 @@ class NoteMeta < DelegateClass(Evernote::EDAM::NoteStore::NoteMetadata)
   def tags
     @tags ||= __getobj__.tagGuids.map{|id| @store.tag_name id}
   end
+
+  def book
+    @book ||= @store.book_name __getobj__.notebookGuid
+  end
 end

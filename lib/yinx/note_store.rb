@@ -38,8 +38,13 @@ module Yinx
       block_given? ? @tags.select(&blk) : @tags
     end
 
+    def book_name id
+      @book_hash ||= Hash[listNotebooks.map{|book| [book.guid, book.name]}]
+      @book_hash[id]
+    end
+
     def tag_name id
-      @tag_hash ||= Hash[@tags.map{|tag| [tag.guid, tag.name]}]
+      @tag_hash ||= Hash[listTags.map{|tag| [tag.guid, tag.name]}]
       @tag_hash[id]
     end
 
@@ -70,6 +75,7 @@ module Yinx
       spec.includeTitle ||= true
       spec.includeUpdated ||= true
       spec.includeTagGuids ||= true
+      spec.includeNotebookGuid ||= true
       spec
     end
 

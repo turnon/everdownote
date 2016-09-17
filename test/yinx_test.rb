@@ -112,4 +112,13 @@ class TestYinx < MiniTest::Unit::TestCase
     assert_equal %w{note_2}, notes.map(&:title)
   end
 
+  def test_return_metadata
+    notes = Yinx.new do
+      tag :tag_1
+    end
+    note = notes[0]
+    assert_respond_to note, :tags
+    assert_equal %w{tag_1}, note.tags
+  end
+
 end

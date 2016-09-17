@@ -19,7 +19,7 @@ class TestNoteStore < MiniTest::Unit::TestCase
     end
     assert_equal 1, prebuilt.size
 
-    metas = note_store.findNotes({notebookGuid: prebuilt[0].guid}).notes
+    metas = note_store.findNotes({notebookGuid: prebuilt[0].guid})
     titles = metas.map(&:title)
     assert_includes titles, 'note_1'
   end
@@ -30,7 +30,7 @@ class TestNoteStore < MiniTest::Unit::TestCase
     end
     assert_equal 2, books.size
 
-    metas = note_store.findNotes({notebookGuid: books[0].guid}).notes
+    metas = note_store.findNotes({notebookGuid: books[0].guid})
     titles = metas.map(&:title)
     assert_includes titles, 'note_1'
   end

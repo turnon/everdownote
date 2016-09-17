@@ -14,4 +14,8 @@ class NoteMeta < DelegateClass(Evernote::EDAM::NoteStore::NoteMetadata)
   def book
     @book ||= @store.book_name __getobj__.notebookGuid
   end
+
+  def stack
+    @stack ||= @store.stack_name __getobj__.notebookGuid
+  end
 end

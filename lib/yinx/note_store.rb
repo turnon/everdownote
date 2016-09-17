@@ -38,6 +38,11 @@ module Yinx
       block_given? ? @tags.select(&blk) : @tags
     end
 
+    def stack_name id
+      @stack_hash ||= Hash[listNotebooks.map{|book| [book.guid, book.stack]}]
+      @stack_hash[id]
+    end
+
     def book_name id
       @book_hash ||= Hash[listNotebooks.map{|book| [book.guid, book.name]}]
       @book_hash[id]

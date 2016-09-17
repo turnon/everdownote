@@ -121,6 +121,8 @@ class TestYinx < MiniTest::Unit::TestCase
     assert_equal %w{tag_1}, note.tags
     assert_respond_to note, :book
     assert_equal '3rd_book', note.book
+    assert_respond_to note, :stack
+    assert_equal 'stack_2', note.stack
   end
 
 end

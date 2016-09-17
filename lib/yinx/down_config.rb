@@ -31,12 +31,19 @@ module Yinx
     end
 
     def note_filters
-      merged_filters = individual_filters.reduce do |rs, arr|
-	rs = rs.empty? ? arr : (arr.empty? ? rs : rs.product(arr))
-	rs
+      merged_filters_in_array = individual_filters.reduce do |merged, indv|
+	merged.empty? ? indv : (indv.empty? ? merged : merged.product(indv))
       end
-      merged_filters.flatten! if merged_filters.fetch(0){[]}.kind_of? Array
-      merged_filters
+      merged_filters_in_hash =
+	if merged_filters_in_array.fetch(0){[]}.kind_of? Array
+          merged_filters_in_array.map do |sub_arr|
+            sub_arr.flatten.reduce do |merged, indv|
+              merged.merge indv
+            end
+          end
+	else
+          merged_filters_in_array
+	end
     end
 
     private
@@ -60,12 +67,11 @@ module Yinx
 
     def tag_id_filter
       return [] if wanted_tags.empty?
-      ids = note_store.listTags do |tag|
+      note_store.listTags do |tag|
 	want_tag? tag.name
       end.map do |tag|
-	tag.guid
+	{tagGuids: [tag.guid]}
       end
-      [{tagGuids: ids}]
     end
 
     def words_filter

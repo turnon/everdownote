@@ -38,7 +38,15 @@ module Yinx
     end
 
     def findNotes opt = {}
-      note_store.findNotesMetadata auth_token, filter(opt), 0, 100, spec(opt)
+      fl, start, ending, sp = filter(opt), 0, 250, spec(opt)
+      md_list = note_store.findNotesMetadata auth_token, fl, start, ending, sp
+      result = md_list.notes
+      while md_list.totalNotes > start + ending
+	start += ending
+        md_list = note_store.findNotesMetadata auth_token, fl, start, ending, sp
+	result.concat md_list.notes
+      end
+      result
     end
 
     private

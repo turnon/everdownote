@@ -17,7 +17,7 @@ module Yinx
 
     def download
       config.note_filters.map do |filter|
-	note_store.findNotes(filter).notes
+	note_store.findNotes(filter)
       end.flatten
     end
 

@@ -29,12 +29,28 @@ module Yinx
     end
 
     def listNotebooks authToken = auth_token, &blk
-      notebooks = note_store.listNotebooks(authToken)
-      block_given? ? notebooks.select(&blk) : notebooks
+      @notebooks ||= note_store.listNotebooks(authToken)
+      block_given? ? @notebooks.select(&blk) : @notebooks
     end
 
     def listTags &blk
-      note_store.listTags(auth_token).select &blk
+      @tags ||= note_store.listTags(auth_token)
+      block_given? ? @tags.select(&blk) : @tags
+    end
+
+    def stack_name id
+      @stack_hash ||= Hash[listNotebooks.map{|book| [book.guid, book.stack]}]
+      @stack_hash[id]
+    end
+
+    def book_name id
+      @book_hash ||= Hash[listNotebooks.map{|book| [book.guid, book.name]}]
+      @book_hash[id]
+    end
+
+    def tag_name id
+      @tag_hash ||= Hash[listTags.map{|tag| [tag.guid, tag.name]}]
+      @tag_hash[id]
     end
 
     def findNotes opt = {}
@@ -63,6 +79,8 @@ module Yinx
       merge spec, opt, NOTE_META_RESULT_SPECS
       spec.includeTitle ||= true
       spec.includeUpdated ||= true
+      spec.includeTagGuids ||= true
+      spec.includeNotebookGuid ||= true
       spec
     end
 

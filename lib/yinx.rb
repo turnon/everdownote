@@ -1,6 +1,7 @@
 module Yinx
   require 'yinx/user_store'
   require 'yinx/down_config'
+  require 'yinx/note_meta'
 
   class << self
 
@@ -18,7 +19,9 @@ module Yinx
     def download
       config.note_filters.map do |filter|
 	note_store.findNotes(filter)
-      end.flatten
+      end.flatten.map do |note|
+	NoteMeta.new note, note_store
+      end
     end
 
     def note_store

@@ -123,6 +123,10 @@ class TestYinx < MiniTest::Unit::TestCase
     assert_equal '3rd_book', note.book
     assert_respond_to note, :stack
     assert_equal 'stack_2', note.stack
+    hash = note.to_h
+    assert_equal %w{tag_1}, hash[:tags]
+    assert_equal '3rd_book', hash[:book]
+    assert_equal 'stack_2', hash[:stack]
   end
 
 end

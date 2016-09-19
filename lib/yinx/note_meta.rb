@@ -18,4 +18,13 @@ class NoteMeta < DelegateClass(Evernote::EDAM::NoteStore::NoteMetadata)
   def stack
     @stack ||= @store.stack_name __getobj__.notebookGuid
   end
+
+  Keys = %w{title book stack tags}.map &:to_sym
+
+  def to_h
+    Keys.reduce({}) do |hash, key|
+      hash[key] = send(key)
+      hash
+    end
+  end
 end

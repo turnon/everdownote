@@ -22,7 +22,7 @@ class NoteMeta < DelegateClass(Evernote::EDAM::NoteStore::NoteMetadata)
     @stack ||= @store.stack_name __getobj__.notebookGuid
   end
 
-  Keys = %w{title book stack tags}.map &:to_sym
+  Keys = %w{title book stack tags created updated contentLength}.map &:to_sym
 
   def to_h
     Keys.reduce({}) do |hash, key|

@@ -2,6 +2,15 @@ module Yinx
   require 'yinx/user_store'
   require 'yinx/down_config'
   require 'yinx/note_meta'
+  require 'yinx/note_store'
+
+  Ex_Result = [:includeDeleted, :includeUpdateSequenceNum,
+		   :includeAttributes, :includeLargestResourceMime,
+                   :includeLargestResourceSize]
+
+  Result = (NoteStore::NOTE_META_RESULT_SPECS - Ex_Result).reduce({}) do |hash, attr_present|
+    hash[attr_present] = true; hash
+  end
 
   class << self
 
@@ -14,11 +23,12 @@ module Yinx
       download
     end
 
+
     private
 
     def download
       config.note_filters.map do |filter|
-	note_store.findNotes(filter)
+	note_store.findNotes(filter.merge Result)
       end.flatten.map do |note|
 	NoteMeta.new note, note_store
       end

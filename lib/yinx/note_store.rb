@@ -79,8 +79,6 @@ module Yinx
       merge spec, opt, NOTE_META_RESULT_SPECS
       spec.includeTitle ||= true
       spec.includeUpdated ||= true
-      spec.includeTagGuids ||= true
-      spec.includeNotebookGuid ||= true
       spec
     end
 

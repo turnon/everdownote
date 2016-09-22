@@ -16,13 +16,16 @@ module Yinx
 
     attr_reader :config
 
-    def new real = true, &block
+    def fetch real = true, &block
       @real = real
       @config = DownConfig.new note_store
       config.instance_eval &block
       download
     end
 
+    def fetch_all
+      fetch {book /./}
+    end
 
     private
 

@@ -1,8 +1,10 @@
+require 'yinx/version'
+require 'yinx/user_store'
+require 'yinx/down_config'
+require 'yinx/note_meta'
+require 'yinx/note_store'
+
 module Yinx
-  require 'yinx/user_store'
-  require 'yinx/down_config'
-  require 'yinx/note_meta'
-  require 'yinx/note_store'
 
   Ex_Result = [:includeDeleted, :includeUpdateSequenceNum,
 		   :includeAttributes, :includeLargestResourceMime,

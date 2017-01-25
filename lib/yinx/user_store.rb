@@ -10,7 +10,7 @@ module Yinx
     #REAL = "www.evernote.com"
     REAL = "app.yinxiang.com"
 
-    TOKEN = "#{ENV['HOME']}/.everdownote"
+    TOKEN = "#{ENV['HOME']}/.yinx"
 
     def initialize real_env = true
       @real = real_env

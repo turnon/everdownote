@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+require 'test_helper'
 require 'yinx/down_config'
 
 class TestDownConfig < MiniTest::Unit::TestCase

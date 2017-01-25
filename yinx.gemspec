@@ -1,12 +1,28 @@
-Gem::Specification.new do |s|
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'yinx/version'
 
-  s.name = %q{yinx}
-  s.version = "0.0.0"
-  s.date = %q{2016-08-04}
-  s.authors = ["zp yuan"]
-  s.summary = %q{download evernote}
+Gem::Specification.new do |spec|
+  spec.name          = "yinx"
+  spec.version       = Yinx::VERSION
+  spec.authors       = ["ken"]
+  spec.email         = ["block24block@gmail.com"]
 
-  s.files = Dir.glob("lib/**/*")
-  s.require_paths = ["lib"]
+  spec.summary       = %q{Get my evernote metadata}
+  spec.homepage      = "https://github.com/turnon/yinx"
+  spec.license       = "MIT"
 
+  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features)/})
+  end
+  spec.bindir        = "exe"
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
+
+  spec.add_development_dependency "bundler", "~> 1.14"
+  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "minitest", "~> 5.0"
+
+  spec.add_dependency "evernote-thrift", "~> 1.25.0"
 end

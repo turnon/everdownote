@@ -1,7 +1,11 @@
-require 'minitest/autorun'
+require 'test_helper'
 require 'yinx'
 
 class TestYinx < MiniTest::Unit::TestCase
+
+  def test_that_it_has_a_version_number
+    refute_nil ::Yinx::VERSION
+  end
 
   def test_filter_by_book_name
     notes = Yinx.fetch do

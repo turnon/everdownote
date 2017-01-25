@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+require 'test_helper'
 require 'yinx/user_store'
 
 class TestNoteStore < MiniTest::Unit::TestCase

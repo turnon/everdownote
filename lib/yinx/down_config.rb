@@ -15,18 +15,18 @@ module Yinx
 
     %w{book stack tag word}.each do |condition|
       define_method "wanted_#{condition}s" do
-	instance_variable_get("@wanted_#{condition}s") || []
+        instance_variable_get("@wanted_#{condition}s") || []
       end
 
       define_method "want_#{condition}?" do |name|
 	wanted_names = self.send "wanted_#{condition}s"
-	wanted_names.empty? ? true : wanted_names.any? do |wanted|
-	  wanted === name or wanted.to_s == name
-	end
+          wanted_names.empty? ? false : wanted_names.any? do |wanted|
+          wanted === name or wanted.to_s == name
+        end
       end
 
       define_method condition do |*conditions|
-	instance_variable_set "@wanted_#{condition}s", conditions
+        instance_variable_set "@wanted_#{condition}s", conditions
       end
     end
 
@@ -58,11 +58,9 @@ module Yinx
 
     def book_id_filter
       return [] if wanted_books.empty? and wanted_stacks.empty?
-      note_store.listNotebooks do |book|
-	want_book? book.name and want_stack? book.stack
-      end.map do |book|
-	{notebookGuid: book.guid}
-      end
+      from_book = note_store.listNotebooks{ |book| want_book? book.name }
+      from_stack = note_store.listNotebooks{ |book| want_stack? book.stack }
+      (from_book.map(&:guid) | from_stack.map(&:guid)).map{|guid| {notebookGuid: guid}}
     end
 
     def tag_id_filter

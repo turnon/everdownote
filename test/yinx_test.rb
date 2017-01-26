@@ -113,7 +113,7 @@ class TestYinx < MiniTest::Unit::TestCase
       book /book_/
       stack 'stack_1', :stack_2
     end
-    assert_equal %w{note_2}, notes.map(&:title)
+    assert_equal %w{note_2 note_3}, notes.map(&:title).sort
   end
 
   def test_return_metadata

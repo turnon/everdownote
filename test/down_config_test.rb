@@ -29,9 +29,9 @@ class TestDownConfig < MiniTest::Unit::TestCase
     assert_equal [], dc.wanted_stacks
     assert_equal [], dc.wanted_books
     assert_equal [], dc.wanted_tags
-    assert dc.want_stack? 'jfgdfs'
-    assert dc.want_book? 'kfjb'
-    assert dc.want_tag? 'uryrs'
+    refute dc.want_stack? 'jfgdfs'
+    refute dc.want_book? 'kfjb'
+    refute dc.want_tag? 'uryrs'
   end
 
   def test_note_filters_without_setting_note_store

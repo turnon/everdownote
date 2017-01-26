@@ -1,33 +1,32 @@
 require 'evernote-thrift'
-require 'delegate'
+require 'forwardable'
 
-class NoteMeta < DelegateClass(Evernote::EDAM::NoteStore::NoteMetadata)
+class NoteMeta
+
+  extend Forwardable
+  def_delegators :@meta, :updated, :created, :title, :notebookGuid, :guid, :contentLength, :tagGuids
+
   def initialize meta, note_store
-    __setobj__ meta
+    @meta = meta
     @store = note_store
   end
 
   def tags
-    @tags ||= begin
-		tag_ids = __getobj__.tagGuids
-		tag_ids ? tag_ids.map{|id| @store.tag_name id} : []
-	      end
+    @tags ||= (tagGuids ? tagGuids.map{|id| @store.tag_name id} : [])
   end
 
   def book
-    @book ||= @store.book_name __getobj__.notebookGuid
+    @book ||= @store.book_name notebookGuid
   end
 
   def stack
-    @stack ||= @store.stack_name __getobj__.notebookGuid
+    @stack ||= @store.stack_name notebookGuid
   end
-
-  Keys = %w{title book stack tags created updated contentLength}.map &:to_sym
 
   def to_h
-    Keys.reduce({}) do |hash, key|
-      hash[key] = send(key)
-      hash
+    @h = (self.class.instance_methods(false) - [:to_h]).each_with_object({}) do |method, hash|
+      hash[method] = send method
     end
   end
+
 end

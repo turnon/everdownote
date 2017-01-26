@@ -121,6 +121,21 @@ class TestYinx < MiniTest::Unit::TestCase
       tag :tag_1
     end
     note = notes[0]
+    assert_meta_correct note
+  end
+
+  def test_dump
+    notes = Yinx.fetch do
+      tag :tag_1
+    end
+    note = notes[0]
+    note = Marshal.load(Marshal.dump(note))
+    assert_meta_correct note
+  end
+
+  private
+
+  def assert_meta_correct note
     assert_respond_to note, :tags
     assert_equal %w{tag_1}, note.tags
     assert_respond_to note, :book

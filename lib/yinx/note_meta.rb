@@ -1,10 +1,18 @@
 require 'evernote-thrift'
-require 'forwardable'
 
 class NoteMeta
 
-  extend Forwardable
-  def_delegators :@meta, :updated, :created, :title, :notebookGuid, :guid, :contentLength, :tagGuids
+  [:updated, :created, :title, :notebookGuid, :guid, :contentLength, :tagGuids].each do |method|
+    define_method method do
+      iv_name = "@#{method}"
+      value = instance_variable_get iv_name
+      unless value
+        value = instance_variable_get("@meta").send method
+        instance_variable_set iv_name, value
+      end
+      value
+    end
+  end
 
   def initialize meta, note_store
     @meta = meta
@@ -20,13 +28,29 @@ class NoteMeta
   end
 
   def stack
-    @stack ||= @store.stack_name notebookGuid
+    @stack = (instance_variable_defined? :@stack) ? @stack : @store.stack_name(notebookGuid)
   end
 
   def to_h
-    @h = (self.class.instance_methods(false) - [:to_h]).each_with_object({}) do |method, hash|
-      hash[method] = send method
+    @h = attr_methods.each_with_object({}) do |method, hash|
+        hash[method] = send method
+      end
+  end
+
+  def marshal_dump
+    to_h
+  end
+
+  def marshal_load hash
+    hash.each do |key, value|
+      instance_variable_set "@#{key}", value
     end
+  end
+
+  private
+
+  def attr_methods
+    self.class.instance_methods(false) - [:to_h, :marshal_dump, :marshal_load]
   end
 
 end

@@ -31,6 +31,14 @@ class NoteMeta
     @stack = (instance_variable_defined? :@stack) ? @stack : @store.stack_name(notebookGuid)
   end
 
+  def created_at
+    Time.at created / 1000
+  end
+
+  def updated_at
+    Time.at updated / 1000
+  end
+
   def to_h
     @h = attr_methods.each_with_object({}) do |method, hash|
         hash[method] = send method

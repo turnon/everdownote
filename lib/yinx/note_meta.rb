@@ -5,12 +5,11 @@ class NoteMeta
   [:updated, :created, :title, :notebookGuid, :guid, :contentLength, :tagGuids].each do |method|
     define_method method do
       iv_name = "@#{method}"
-      value = instance_variable_get iv_name
-      unless value
+      unless instance_variable_defined? iv_name
         value = instance_variable_get("@meta").send method
         instance_variable_set iv_name, value
       end
-      value
+      instance_variable_get iv_name
     end
   end
 

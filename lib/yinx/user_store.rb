@@ -35,6 +35,7 @@ module Yinx
     end
 
     def default_token
+      return ENV['YINX'] if ENV['YINX']
       File.exist?(TOKEN) ? File.read(TOKEN).chomp : nil
     end
 

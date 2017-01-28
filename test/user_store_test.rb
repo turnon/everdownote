@@ -23,4 +23,11 @@ class TestUserStore < MiniTest::Unit::TestCase
     assert_equal token, UserStore.new.default_token
   end
 
+  def test_default_token_use_env_first
+    token_from_file = File.read(UserStore::TOKEN).chomp
+    token_from_env = ENV['YINX'] = token_from_file[0..5]
+    assert_equal token_from_env, UserStore.new.default_token
+    refute_equal token_from_file, UserStore.new.default_token
+  end
+
 end

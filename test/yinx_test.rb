@@ -117,23 +117,29 @@ class TestYinx < MiniTest::Unit::TestCase
   end
 
   def test_return_metadata
-    notes = Yinx.fetch do
-      tag :tag_1
-    end
-    note = notes[0]
-    assert_meta_correct note
+    assert_meta_correct note_with_tag_1
   end
 
   def test_dump
-    notes = Yinx.fetch do
-      tag :tag_1
-    end
-    note = notes[0]
+    note = note_with_tag_1
     note = Marshal.load(Marshal.dump(note))
     assert_meta_correct note
   end
 
+  def test_to_yinx
+    note = note_with_tag_1
+    note = note.to_h.to_yinx
+    assert_meta_correct note
+  end
+
   private
+
+  def note_with_tag_1
+    notes = Yinx.fetch do
+      tag :tag_1
+    end
+    notes[0]
+  end
 
   def assert_meta_correct note
     assert_respond_to note, :tags

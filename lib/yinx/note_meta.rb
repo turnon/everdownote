@@ -1,6 +1,8 @@
 require 'evernote-thrift'
+require 'yinx/hash'
+require 'yinx/array'
 
-class NoteMeta
+class Yinx::NoteMeta
 
   [:updated, :created, :title, :notebookGuid, :guid, :contentLength, :tagGuids].each do |method|
     define_method method do
@@ -16,6 +18,10 @@ class NoteMeta
   def initialize meta, note_store
     @meta = meta
     @store = note_store
+  end
+
+  def self.raw
+    new nil, nil
   end
 
   def tags

@@ -20,10 +20,6 @@ class Yinx::NoteMeta
     @store = note_store
   end
 
-  def self.raw
-    new nil, nil
-  end
-
   def tags
     @tags ||= (tagGuids ? tagGuids.map{|id| @store.tag_name id} : [])
   end
@@ -48,6 +44,12 @@ class Yinx::NoteMeta
     @h = attr_methods.each_with_object({}) do |method, hash|
         hash[method] = send method
       end
+  end
+
+  def self.from_h hash
+    raw = new nil, nil
+    raw.marshal_load hash
+    raw
   end
 
   def marshal_dump

@@ -128,7 +128,7 @@ class TestYinx < MiniTest::Unit::TestCase
 
   def test_to_yinx
     note = note_with_tag_1
-    note = note.to_h.to_yinx
+    note = Yinx::NoteMeta.from_h note.to_h
     assert_meta_correct note
   end
 

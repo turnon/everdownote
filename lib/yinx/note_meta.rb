@@ -1,10 +1,12 @@
 require 'evernote-thrift'
-require 'yinx/hash'
-require 'yinx/array'
 
 class Yinx::NoteMeta
 
-  [:updated, :created, :title, :notebookGuid, :guid, :contentLength, :tagGuids].each do |method|
+  OfficialApi = [:updated, :created, :title, :notebookGuid, :guid, :contentLength, :tagGuids]
+
+  FullApi = OfficialApi + [:tags, :book, :stack]
+
+  OfficialApi.each do |method|
     define_method method do
       iv_name = "@#{method}"
       unless instance_variable_defined? iv_name
@@ -41,7 +43,7 @@ class Yinx::NoteMeta
   end
 
   def to_h
-    @h = attr_methods.each_with_object({}) do |method, hash|
+    @h = FullApi.each_with_object({}) do |method, hash|
         hash[method] = send method
       end
   end
@@ -62,10 +64,29 @@ class Yinx::NoteMeta
     end
   end
 
+  NoTagGuid, NoTag = 'NoTagGuid', 'NoTag'
+
+  def unwind_tags
+    if tags.empty?
+      [_unwind_tags(NoTagGuid, NoTag)]
+    else
+      tagGuids.zip(tags).map do |tag_id, tag_name|
+        _unwind_tags tag_id, tag_name
+      end
+    end
+  end
+
+  protected
+
+  attr_writer :tagGuids, :tags
+
   private
 
-  def attr_methods
-    self.class.instance_methods(false) - [:to_h, :marshal_dump, :marshal_load]
+  def _unwind_tags tag_id, tag_name
+    uw = self.dup
+    uw.tagGuids = tag_id
+    uw.tags = tag_name
+    uw
   end
 
 end

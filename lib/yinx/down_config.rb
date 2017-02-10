@@ -15,7 +15,8 @@ module Yinx
 
     %w{book stack tag word}.each do |condition|
       define_method "wanted_#{condition}s" do
-        instance_variable_get("@wanted_#{condition}s") || []
+        iv_name = "@wanted_#{condition}s"
+        instance_variable_defined?(iv_name) ? instance_variable_get(iv_name) : []
       end
 
       define_method "want_#{condition}?" do |name|

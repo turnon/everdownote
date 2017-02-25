@@ -29,6 +29,11 @@ module Yinx
       fetch {book /./}
     end
 
+    def fetch_all_books real = true
+      @real = real
+      note_store.listNotebooks
+    end
+
     private
 
     def download

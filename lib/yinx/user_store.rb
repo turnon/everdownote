@@ -1,4 +1,5 @@
 require 'evernote-thrift'
+require 'yinx/helper'
 require 'yinx/note_store'
 
 module Yinx

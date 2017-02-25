@@ -21,7 +21,7 @@ module Yinx
 
       define_method "want_#{condition}?" do |name|
 	wanted_names = self.send "wanted_#{condition}s"
-          wanted_names.empty? ? false : wanted_names.any? do |wanted|
+        wanted_names.empty? ? false : wanted_names.any? do |wanted|
           wanted === name or wanted.to_s == name
         end
       end

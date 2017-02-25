@@ -13,6 +13,12 @@ class TestYinx < MiniTest::Unit::TestCase
     assert_includes books, 'stack_2/3rd_book'
   end
 
+  def test_fetch_all_tags
+    tags = Yinx.fetch_all_tags.map &:name
+    assert_includes tags, 'tag_1'
+    assert_includes tags, 'tag_2'
+  end
+
   def test_filter_by_book_name
     notes = Yinx.fetch do
       book :book_1

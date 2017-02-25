@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Put your api key in `$HOME/.yinx`, then:
+Put your api key in `$HOME/.yinx`, or `export YINX=yourkey`, then:
 
 ```ruby
 notes = Yinx.fetch_all
@@ -37,3 +37,9 @@ notes = Yinx.fetch do
 end
 ```
 
+Or you may just get books or tags info:
+
+```ruby
+books = Yinx.fetch_all_books
+tags = Yinx.fetch_all_tags
+```

@@ -34,6 +34,11 @@ module Yinx
       note_store.listNotebooks
     end
 
+    def fetch_all_tags real = true
+      @real = real
+      note_store.listTags
+    end
+
     private
 
     def download
